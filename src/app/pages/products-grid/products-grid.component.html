@@ -18,7 +18,9 @@
     <p class="text-base text-gray-600 mb-6"> {{ `${store.filteredProduct().length} products found` }} </p>
     <div class="responsive-grid">
       @for (product of store.filteredProduct(); track product.id) {
-        <app-product-card [product]="product"/>
+        <app-product-card [product]="product">
+          <app-toggle-wishlist-button class="!absolute z-10 top-3 right-3" [product]="product"/>
+        </app-product-card>
       }
     </div>
   </mat-sidenav-content>
