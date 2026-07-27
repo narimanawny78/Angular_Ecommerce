@@ -2,10 +2,13 @@ import { Component, inject } from '@angular/core';
 import { BackButtonComponent } from "../../components/back-button/back-button.component";
 import { EcommerceStore } from '../../store/ecommerce.store';
 import { ProductCardComponent } from "../../components/product-card/product-card.component";
+import { MatIcon } from "@angular/material/icon";
+import { MatAnchor } from "@angular/material/button";
+import { EmptyWishlistComponent } from "./empty-wishlist/empty-wishlist.component";
 
 @Component({
   selector: 'app-my-wishlist',
-  imports: [BackButtonComponent, ProductCardComponent],
+  imports: [BackButtonComponent, ProductCardComponent, MatIcon, MatAnchor, EmptyWishlistComponent],
   templateUrl: './my-wishlist.component.html',
   styleUrl: './my-wishlist.component.scss',
 })

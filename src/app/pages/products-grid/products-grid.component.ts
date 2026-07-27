@@ -6,11 +6,13 @@ import { MatNavList, MatListItemTitle , MatListItem } from '@angular/material/li
 import { RouterLink } from "@angular/router";
 import { TitleCasePipe } from '@angular/common';
 import { EcommerceStore } from '../../store/ecommerce.store';
+import { ToggleWishlistButtonComponent } from '../../components/toggle-wishlist-button/toggle-wishlist-button.component';
 
 @Component({
   selector: 'app-products-grid',
   imports: [
     ProductCardComponent,
+    ToggleWishlistButtonComponent,
     MatSidenav,
     MatSidenavContainer,
     MatSidenavContent,
