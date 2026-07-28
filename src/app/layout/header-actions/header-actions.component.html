@@ -1,9 +1,9 @@
 <div class="flex item-center gap-2">
-  <button matIconButton>
-    <mat-icon [routerLink]="['/wishlist']" [matBadge]="store.wishlistCount()" [matBadgeHidden]="store.wishlistCount() === 0">favorite</mat-icon>
+  <button matIconButton [routerLink]="['/wishlist']" [matBadge]="store.wishlistCount()" [matBadgeHidden]="store.wishlistCount() === 0">
+    <mat-icon>favorite</mat-icon>
   </button>
-  <button matIconButton>
-    <mat-icon>shopping_cart</mat-icon>
+  <button matIconButton [routerLink]="['/cart']" [matBadge]="store.cartCount()" [matBadgeHidden]="store.cartCount() === 0">
+    <mat-icon >shopping_cart</mat-icon>
   </button>
   <button matButton>
     Sign In
