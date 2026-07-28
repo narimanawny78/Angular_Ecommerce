@@ -3,11 +3,13 @@ import { Product } from '../models/product';
 import { computed, inject } from '@angular/core';
 import { produce} from 'immer'
 import { ToasterService } from '../services/toaster.service';
+import { CartItem } from '../models/cart';
 
 export type EcommerceState = {
   products: Product[];
   category: string;
   wishlistItems: Product[];
+  cartItem: CartItem[];
 };
 
 export const EcommerceStore = signalStore(
@@ -163,10 +165,11 @@ export const EcommerceStore = signalStore(
     ],
 
     category :'all',
-    wishlistItems: []
+    wishlistItems: [],
+    cartItem:[],
   } as EcommerceState),
 
-  withComputed(({ category , products , wishlistItems}) => ({
+  withComputed(({ category , products , wishlistItems , cartItem}) => ({
     filteredProduct : computed (() => {
     if (category() === 'all') {
       return products();
@@ -175,7 +178,9 @@ export const EcommerceStore = signalStore(
       (p) => p.category === category().toLocaleLowerCase(),
     );
   }),
-    wishlistCount: computed(() => wishlistItems().length)
+    wishlistCount: computed(() => wishlistItems().length),
+    cartCount: computed(()=> cartItem().reduce((acc , item)=> acc + item.quantity , 0))
+
   })),
 
   withMethods((store , toaster = inject(ToasterService)) => ({
@@ -203,6 +208,25 @@ export const EcommerceStore = signalStore(
     clearWishlist: ()=>{
       patchState(store, {wishlistItems: []});
     },
+
+    addToCart: (product: Product, quantity = 1)=>{
+     const existingItemIndex = store.cartItem().findIndex(i => i.product.id === product.id);
+
+     const updatedCartItems = produce(store.cartItem(), (draft)=>{
+      if(existingItemIndex !== -1){
+        draft[existingItemIndex].quantity += quantity;
+        return;
+      }
+      draft.push({
+        product,quantity
+      })
+     });
+
+     patchState(store, {cartItem: updatedCartItems})
+     toaster.success(existingItemIndex !== -1 ? 'Product added again': 'Produact added to the cart')
+
+    }
+
   }))
 
 );
