@@ -225,6 +225,40 @@ export const EcommerceStore = signalStore(
      patchState(store, {cartItem: updatedCartItems})
      toaster.success(existingItemIndex !== -1 ? 'Product added again': 'Produact added to the cart')
 
+    },
+
+    setItemQuantity(params: {productId: string , quantity: number}){
+      const index = store.cartItem().findIndex(c => c.product.id === params.productId);
+      const updated = produce(store.cartItem() , (draft)=>{
+        draft[index].quantity = params.quantity
+      });
+      patchState(store, {cartItem: updated})
+    },
+
+    addAllWishlistToCart: ()=>{
+      const updatedCartItems = produce(store.cartItem(), (draft)=>{
+        store.wishlistItems().forEach(p =>{
+          if(!draft.find(c => c.product.id === p.id)){
+            draft.push({product: p , quantity: 1});
+          }
+        })
+      })
+      patchState(store , {cartItem : updatedCartItems, wishlistItems: []})
+    },
+
+    moveToWishlist: (product: Product) =>{
+      const updatedCartItems = store.cartItem().filter((p)=> p.product.id !== product.id);
+      const updatedWishlistItems = produce(store.wishlistItems(), (draft)=>{
+        if (!draft.find((p) => p.id === product.id)) {
+          draft.push(product);
+        }
+      })
+
+      patchState(store, {cartItem: updatedCartItems , wishlistItems: updatedWishlistItems});
+    },
+
+    removeFromCart: (product: Product) =>{
+      patchState(store, {cartItem: store.cartItem().filter((c)=> c.product.id !== product.id)} )
     }
 
   }))
