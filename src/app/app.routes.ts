@@ -11,6 +11,10 @@ export const routes: Routes = [
      loadComponent: () => import( './pages/products-grid/products-grid.component'),
   },
   {
+    path:'product/:productId',
+     loadComponent: () => import( './pages/view-product-detail/view-product-detail.component'),
+  },
+  {
     path:'wishlist',
      loadComponent: () => import( './pages/my-wishlist/my-wishlist.component'),
   },
